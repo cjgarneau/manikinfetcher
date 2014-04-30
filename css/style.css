@@ -1,0 +1,26 @@
+#pageView {
+	min-width:700px; 
+}
+
+#headerLogoBlock {
+	width:18%;
+	float:left;
+	padding:0 0 0 10px;
+ }
+ 
+#headerTitleBlock {
+  width:60%;
+  float:left; 
+  text-align:center;
+  padding-top:10px;
+}
+
+#headerLinkBlock {
+ 	width:18%;
+ 	float:right; 
+ 	text-align:right; 
+ 	padding-top:10px; 
+ 	padding-right:10px;
+ }
+ 
+ a.bodySegmentLink:link, a.bodySegmentLink:visited, a.bodySegmentLink:hover, a.bodySegmentLink:active { text-decoration: underline; font-weight:bold; color: #000 };
