@@ -2,21 +2,22 @@
 <html>
   <head>
   <title>Manikin Fetcher: Open Design Lab</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1">   
+	<meta name="viewport" content="width=device-width, initial-scale=1">   
 
-      <link rel="apple-touch-icon" href="./apple-touch-icon.png"/>
-	<meta charset="utf-8">
-
-
-<link rel="stylesheet" href="./css/themes/openlab_tools_v1_extended.css" />
-  <link rel="stylesheet" href="./css/themes/jquery.mobile.icons.min.css" />
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" /> 
-  <link rel="stylesheet" href="./css/style.css">
-
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
-  <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	<link rel="apple-touch-icon" href="./apple-touch-icon.png"/>
+	<meta charset="utf-8">		
+			
+	<link rel="stylesheet" href="./css/themes/openlab_tools_v1_extended.css" />
+	<link rel="stylesheet" href="./css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" /> 
+	<link rel="stylesheet" href="./css/style.css">
+	
+  	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script> 
+  	<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
  
   
+			
+  	
 <script type="text/javascript" src="build_data.js">
 /* This script loads the data. Run build_data.php if the SQLite database is updated! */
 </script>
@@ -25,35 +26,125 @@
 
 <script type="text/javascript">
 
+	$(document).on('pageinit','#pageView',function(event){
+		selectedDims = new Array();
+		measures = new Array('STATURE','BMI');
+		measure1='STATURE';
+		measure2='BMI';
+		measure3='';
+		measure4='';
+		totalDims = 2;
+		selectedDims['STATURE'] = true;
+		selectedDims['BMI'] = true;	
+	
+	
+		initSliders(measure1,measure2,null,null,2)
+	});
 
-$( document ).on( "pagecreate", function( event ) {
+
+		function dimSwitch(dimName){
+
+	
+				if (selectedDims[dimName]==false || selectedDims[dimName]=="undefined" || selectedDims[dimName]==null){
+							selectedDims[dimName] = true;
+							totalDims = totalDims + 1;
+				
+				} else if(totalDims<=1){
+							alert('You may select a minimum of 1 dimensions. Please add a dimension to remove one.');
+							$("#"+dimName).prop("checked",true).checkboxradio("refresh");	
+				}else{
+					selectedDims[dimName] = false;
+					totalDims = totalDims - 1;
+				}
+		
+				count = 0;
+				measures = new Array('','','','');
+				measure1="";
+				measure2="";
+				measure3="";
+				measure4="";
+		
+				for (var key in selectedDims) {
+					if (selectedDims[key]==true) {
+						measures[count] = key;
+						count++;
+					}
+				}
+		
+		
+				// CONVERT TO EXPLICIT FORMAT TOO (EASIER IN SPOTS)
+		
+				if (measures.length>0){
+					measure1 = measures[0]; measure2="";measure3="";measure4="";
+				}
+				if (measures.length>1){
+					measure2 = measures[1];measure3="";measure4="";
+				}
+				if (measures.length>2){
+					measure3 = measures[2];measure4="";
+				}
+				if (measures.length>3)
+					measure4 = measures[3];
+					
+		
+		}
+		function initSliders(measure1,measure2,measure3,measure4,totalDims){
+	
+			all_sliders_html = '';
+	
+	
+			// 1st slider
+			all_sliders_html += '<div data-role="rangeslider" id="xRange">';
+			all_sliders_html += '<label for="xRange-min" style="margin-bottom:-10px"><span id="xLabel">measure1</span> &nbsp;<span id="accom_x" style="color:red; font-size:20px;">100%</span></label>';
+			all_sliders_html += '<input type="range" name="xRange-min" id="xRange-min" value="0" min="0" max="100"/>';
+			all_sliders_html += '<input type="range" name="xRange-max" id="xRange-max" value="100" min="0" max="100"	 />';
+			all_sliders_html += '</div>';
+			
+			// y slider
+			if ((measure2!=null)&&(measure2!='')){
+			all_sliders_html += '<div data-role="rangeslider" id="yRange">';
+			all_sliders_html += '<label for="yRange-min" style="margin-bottom:-10px"><span id="yLabel">measure2</span> &nbsp;<span id="accom_y" style="color:red; font-size:20px;">100%</span></label>';
+			all_sliders_html += '<input type="range" name="yRange-min" id="yRange-min" value="0" min="0" max="100" />';
+			all_sliders_html += '<input type="range" name="yRange-max" id="yRange-max" value="100" min="0" max="100" />';
+			} 
+				 
+			// z slider
+			if ((measure3!=null)&&(measure3!='')){
+				all_sliders_html += '<div data-role="rangeslider" id="zRange">';
+				all_sliders_html += '<label for="zRange-min" style="margin-bottom:-10px"><span id="zLabel">measure3</span> &nbsp;<span id="accom_z" style="color:red; font-size:20px;">100%</span></label>';
+				all_sliders_html += '<input type="range" name="zRange-min" id="zRange-min" value="0" min="0" max="100" />';
+				all_sliders_html += '<input type="range" name="zRange-max" id="zRange-max" value="100" min="0" max="100" />';
+	   
+			}
+	
+			// q slider
+			if ((measure4!=null)&&(measure4!='')){
+				all_sliders_html += '<div data-role="rangeslider" id="qRange">';
+				all_sliders_html += '<label for="qRange-min" style="margin-bottom:-10px"><span id="qLabel">measure4</span> &nbsp;<span id="accom_q" style="color:red; font-size:20px;">100%</span></label>';
+				all_sliders_html += '<input type="range" name="qRange-min" id="qRange-min" value="0" min="0" max="100"	/>';
+				all_sliders_html += '<input type="range" name="qRange-max" id="qRange-max" value="100" min="0" max="100"	/>';
+	  
+			}
+	
+	
+			$('#sliders').html(all_sliders_html).trigger('create');
+	
+		}
 
 
-
-});
-
-
-
-$(document).on("change",ELEMENTS,function(event){
-
-
-
-}
-
-
-
+	$(document).on('change','#anthroPickerForm', function(event){
+		initSliders(measure1,measure2,measure3,measure4,totalDims);
+	});
 </script>
 
 
 
-
-        
         
   </head>
   <body onLoad="">   
     
     
-       <div data-role="page" id="pageView" data-theme="f"> 
+       <div data-role="page" id="pageView" data-theme="a"> 
       
       
 
@@ -65,19 +156,105 @@ $(document).on("change",ELEMENTS,function(event){
 			</div>
 			</div>
 			
-          <div data-role="content">
-          
-          
-			<h3 class="ui-bar ui-bar-a">Background</h3>
-			<div class="ui-body">
-			<p>Background</p>
-			</div>
+	<!-- content -->
+	<div data-role="content">	
+	
+		<div class="ui-grid-a">
+		
+			<!-- anthro picker sidebar-->
+			<div class="ui-block-a" style="width: 20%;">
+		
+			<p><i>Select 2 or more dimensions for consideration.</i></p>
 
-          </div>
+	  			<!-- Male/Female toggle -->
+				<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+					<legend style="font-size:14px; font-weight:bold; float:left; margin-right:20px">Gender</legend>
+					<input type="radio" name="mvGender" id="mvGender_M" checked="checked">
+					<label for="mvGender_M">Male</label>
+					<input type="radio" name="mvGender" id="mvGender_F">
+					<label for="mvGender_F">Female</label>
+				</fieldset>
+
+				<!-- anthro picker -->
+				<form name="anthroPickerForm" id="anthroPickerForm" style="margin-top:20px">
+
+				<fieldset data-role="controlgroup" data-mini="true">
+					
+					<input type="checkbox" name="STATURE" id="STATURE" checked="checked" onChange="dimSwitch('STATURE');"/>
+					<label for="STATURE">Stature</label>
+					
+					<input type="checkbox" name="BMI" id="BMI" checked="checked" onChange="dimSwitch('BMI');"/>
+					<label for="BMI">BMI</label>
+					
+					<input type="checkbox" name="SSH" id="SSH" onChange="dimSwitch('SSH');"/>
+					<label for="SSH">Sitting Height/Stature (SSH)</label>
+										
+					<input type="checkbox" name="BB" id="BB" onChange="dimSwitch('BB');"/>
+					<label for="BB">Biacromial Breadth</label>
+
+					<input type="checkbox" name="sittingKneeHeight" id="SKH" onChange="dimSwitch('sittingKneeHeight');"/>
+					<label for="KNS">SittingKneeHeight</label>					
+					
+					<input type="checkbox" name="forearmHandLength" id="FHL" onChange="dimSwitch('forearmHandLength');"/>
+					<label for="FHL">ForearmHandLength</label>
+									
+					<input type="checkbox" name="sittingHipBreadth" id="SHB" onChange="dimSwitch('sittingHipBreadth');"/>
+					<label for="SHB">Sitting Hip Breadth</label>
+					
+					<input type="checkbox" name="headCirc" id="head" onChange="dimSwitch('headCirc');"/>
+					<label for="head">Head Circumference</label>
+					
+					<input type="checkbox" name="chestCirc" id="chest" onChange="dimSwitch('chestCirc');"/>
+					<label for="chest">Chest Circumference</label>	
+					
+					<input type="checkbox" name="waistCirc" id="waist" onChange="dimSwitch('waistCirc');"/>
+					<label for="waist">Waist Circumference</label>	
+					
+					<input type="checkbox" name="buttCirc" id="butt" onChange="dimSwitch('buttCirc');"/>
+					<label for="butt">Hip Circumference (at buttocks)</label>													
+					
+				</fieldset>
+
+				</form>
+	  
+		
+			</div>
+			
+			<!-- content -->
+			<div class="ui-block-b" style="width:80%;">
+
+					<br style="clear:both">
+		  
+				<p style="text-align:center; color:red; font-style:bold; font-size:18px;">
+
+					Number of Available Manikins:  <span id="totals" style="font-size:22px">100</span>					 
+					 <!--
+					 <a href="#" data-role="button" data-inline="true" onClick="plot();" data-mini="true">Update Graph</a>
+					<a href="#mvGraphSettings" data-rel="popup" data-role="button" data-inline="true" data-mini="true" data-icon="gear">Graph Settings</a>
+					-->
+
+				 </p>
+			 
+			<!--  My Range slider -->
+			<div style="margin: 0 auto; width:90%" id="sliders">
+	
+			 
+			</div>
+			<!--  My Range slider -->  
+		  
+		  </div>
+	  </div>
+		
+
+	
+	
+	</div><!-- /content -->
+         
           
-          
-          
-          </div>
+    <div data-role="footer">
+	<h4>Page Footer</h4>
+	</div><!-- /footer -->     
+  	</div>
           
  
 
