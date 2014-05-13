@@ -24,121 +24,7 @@
 
 <script type="text/javascript" src="./stats.js"></script>
 
-<script type="text/javascript">
-
-	$(document).on('pageinit','#pageView',function(event){
-		selectedDims = new Array();
-		measures = new Array('STATURE','BMI');
-		measure1='STATURE';
-		measure2='BMI';
-		measure3='';
-		measure4='';
-		totalDims = 2;
-		selectedDims['STATURE'] = true;
-		selectedDims['BMI'] = true;	
-	
-	
-		initSliders(measure1,measure2,null,null,2)
-	});
-
-
-		function dimSwitch(dimName){
-
-	
-				if (selectedDims[dimName]==false || selectedDims[dimName]=="undefined" || selectedDims[dimName]==null){
-							selectedDims[dimName] = true;
-							totalDims = totalDims + 1;
-				
-				} else if(totalDims<=1){
-							alert('You may select a minimum of 1 dimensions. Please add a dimension to remove one.');
-							$("#"+dimName).prop("checked",true).checkboxradio("refresh");	
-				}else{
-					selectedDims[dimName] = false;
-					totalDims = totalDims - 1;
-				}
-		
-				count = 0;
-				measures = new Array('','','','');
-				measure1="";
-				measure2="";
-				measure3="";
-				measure4="";
-		
-				for (var key in selectedDims) {
-					if (selectedDims[key]==true) {
-						measures[count] = key;
-						count++;
-					}
-				}
-		
-		
-				// CONVERT TO EXPLICIT FORMAT TOO (EASIER IN SPOTS)
-		
-				if (measures.length>0){
-					measure1 = measures[0]; measure2="";measure3="";measure4="";
-				}
-				if (measures.length>1){
-					measure2 = measures[1];measure3="";measure4="";
-				}
-				if (measures.length>2){
-					measure3 = measures[2];measure4="";
-				}
-				if (measures.length>3)
-					measure4 = measures[3];
-					
-		
-		}
-		function initSliders(measure1,measure2,measure3,measure4,totalDims){
-	
-			all_sliders_html = '';
-	
-	
-			// 1st slider
-			all_sliders_html += '<div data-role="rangeslider" id="xRange">';
-			all_sliders_html += '<label for="xRange-min" style="margin-bottom:-10px"><span id="xLabel">measure1</span> &nbsp;<span id="accom_x" style="color:red; font-size:20px;">100%</span></label>';
-			all_sliders_html += '<input type="range" name="xRange-min" id="xRange-min" value="0" min="0" max="100"/>';
-			all_sliders_html += '<input type="range" name="xRange-max" id="xRange-max" value="100" min="0" max="100"	 />';
-			all_sliders_html += '</div>';
-			
-			// y slider
-			if ((measure2!=null)&&(measure2!='')){
-			all_sliders_html += '<div data-role="rangeslider" id="yRange">';
-			all_sliders_html += '<label for="yRange-min" style="margin-bottom:-10px"><span id="yLabel">measure2</span> &nbsp;<span id="accom_y" style="color:red; font-size:20px;">100%</span></label>';
-			all_sliders_html += '<input type="range" name="yRange-min" id="yRange-min" value="0" min="0" max="100" />';
-			all_sliders_html += '<input type="range" name="yRange-max" id="yRange-max" value="100" min="0" max="100" />';
-			} 
-				 
-			// z slider
-			if ((measure3!=null)&&(measure3!='')){
-				all_sliders_html += '<div data-role="rangeslider" id="zRange">';
-				all_sliders_html += '<label for="zRange-min" style="margin-bottom:-10px"><span id="zLabel">measure3</span> &nbsp;<span id="accom_z" style="color:red; font-size:20px;">100%</span></label>';
-				all_sliders_html += '<input type="range" name="zRange-min" id="zRange-min" value="0" min="0" max="100" />';
-				all_sliders_html += '<input type="range" name="zRange-max" id="zRange-max" value="100" min="0" max="100" />';
-	   
-			}
-	
-			// q slider
-			if ((measure4!=null)&&(measure4!='')){
-				all_sliders_html += '<div data-role="rangeslider" id="qRange">';
-				all_sliders_html += '<label for="qRange-min" style="margin-bottom:-10px"><span id="qLabel">measure4</span> &nbsp;<span id="accom_q" style="color:red; font-size:20px;">100%</span></label>';
-				all_sliders_html += '<input type="range" name="qRange-min" id="qRange-min" value="0" min="0" max="100"	/>';
-				all_sliders_html += '<input type="range" name="qRange-max" id="qRange-max" value="100" min="0" max="100"	/>';
-	  
-			}
-	
-	
-			$('#sliders').html(all_sliders_html).trigger('create');
-	
-		}
-
-
-	$(document).on('change','#anthroPickerForm', function(event){
-		initSliders(measure1,measure2,measure3,measure4,totalDims);
-	});
-</script>
-
-
-
+<script type="text/javascript" src="./manikin.js"></script>
         
   </head>
   <body onLoad="">   
@@ -168,7 +54,7 @@
 
 	  			<!-- Male/Female toggle -->
 				<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-					<legend style="font-size:14px; font-weight:bold; float:left; margin-right:20px">Gender</legend>
+					<legend style="font-size:14px; font-weight:bold;  margin-right:20px">Gender</legend>
 					<input type="radio" name="mvGender" id="mvGender_M" checked="checked">
 					<label for="mvGender_M">Male</label>
 					<input type="radio" name="mvGender" id="mvGender_F">
@@ -221,13 +107,27 @@
 			</div>
 			
 			<!-- content -->
-			<div class="ui-block-b" style="width:80%;">
+			<div class="ui-block-b" style="width:80%;" id="main_content">
 
-					<br style="clear:both">
+				<div id="view">
+				<form>
+					<label for="flip-checkbox-3" style="font-size:14px; font-weight:bold; margin-right:20px">View:</label>
+					<input type="checkbox" data-role="flipswitch" name="view-checkbox" id="view-checkbox" data-on-text="Side" data-off-text="Front" data-wrapper-class="custom-size-flipswitch">
+				</form>	
+				</div>			
+
+						
+				<div class="ui-grid-d" id="images">
+					<div class="ui-block-a" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_1.png" alt="human 1" style="height: 250px"></div></div>
+					<div class="ui-block-b" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_2.png" alt="human 1" style="height: 250px"></div></div>
+					<div class="ui-block-c" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_3.png" alt="human 1" style="height: 250px"></div></div>
+					<div class="ui-block-d" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_4.png" alt="human 1" style="height: 250px"></div></div>
+					<div class="ui-block-e" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_5.png" alt="human 1" style="height: 250px"></div></div>
+				</div>
 		  
 				<p style="text-align:center; color:red; font-style:bold; font-size:18px;">
 
-					Number of Available Manikins:  <span id="totals" style="font-size:22px">100</span>					 
+					Number of Available Manikins:  <span id="totals" style="font-size:22px"></span>					 
 					 <!--
 					 <a href="#" data-role="button" data-inline="true" onClick="plot();" data-mini="true">Update Graph</a>
 					<a href="#mvGraphSettings" data-rel="popup" data-role="button" data-inline="true" data-mini="true" data-icon="gear">Graph Settings</a>
@@ -237,10 +137,9 @@
 			 
 			<!--  My Range slider -->
 			<div style="margin: 0 auto; width:90%" id="sliders">
-	
-			 
+				 
 			</div>
-			<!--  My Range slider -->  
+			
 		  
 		  </div>
 	  </div>
