@@ -66,10 +66,10 @@
 
 				<fieldset data-role="controlgroup" data-mini="true">
 					
-					<input type="checkbox" name="STATURE" id="STATURE" checked="checked" onChange="dimSwitch('STATURE');"/>
+					<input type="checkbox" name="STATURE" id="STATURE" checked="checked" onChange="dimSwitch('STATURE');" />
 					<label for="STATURE">Stature</label>
 					
-					<input type="checkbox" name="BMI" id="BMI" checked="checked" onChange="dimSwitch('BMI');"/>
+					<input type="checkbox" name="BMI" id="BMI" checked="checked" onChange="dimSwitch('BMI');" />
 					<label for="BMI">BMI</label>
 					
 					<input type="checkbox" name="SSH" id="SSH" onChange="dimSwitch('SSH');"/>
@@ -78,43 +78,65 @@
 					<input type="checkbox" name="BB" id="BB" onChange="dimSwitch('BB');"/>
 					<label for="BB">Biacromial Breadth</label>
 
-					<input type="checkbox" name="sittingKneeHeight" id="SKH" onChange="dimSwitch('sittingKneeHeight');"/>
-					<label for="KNS">SittingKneeHeight</label>					
+					<input type="checkbox" name="KHS" id="KHS" onChange="dimSwitch('KHS');"/>
+					<label for="KHS">Knee Height-Sitting</label>						
 					
-					<input type="checkbox" name="forearmHandLength" id="FHL" onChange="dimSwitch('forearmHandLength');"/>
-					<label for="FHL">ForearmHandLength</label>
+					<input type="checkbox" name="FHL" id="FHL" onChange="dimSwitch('FHL');"/>
+					<label for="FHL">Forearm Hand Length</label>
 									
-					<input type="checkbox" name="sittingHipBreadth" id="SHB" onChange="dimSwitch('sittingHipBreadth');"/>
+					<input type="checkbox" name="SHB" id="SHB" onChange="dimSwitch('SHB');"/>
 					<label for="SHB">Sitting Hip Breadth</label>
 					
-					<input type="checkbox" name="headCirc" id="head" onChange="dimSwitch('headCirc');"/>
-					<label for="head">Head Circumference</label>
+					<input type="checkbox" name="HCIRC" id="HCIRC" onChange="dimSwitch('HCIRC');"/>
+					<label for="HCIRC">Head Circumference</label>
 					
-					<input type="checkbox" name="chestCirc" id="chest" onChange="dimSwitch('chestCirc');"/>
-					<label for="chest">Chest Circumference</label>	
+					<input type="checkbox" name="CCIRC" id="CCIRC" onChange="dimSwitch('CCIRC');"/>
+					<label for="CCIRC">Chest Circumference</label>	
 					
-					<input type="checkbox" name="waistCirc" id="waist" onChange="dimSwitch('waistCirc');"/>
-					<label for="waist">Waist Circumference</label>	
+					<input type="checkbox" name="WCIRC" id="WCIRC" onChange="dimSwitch('WCIRC');"/>
+					<label for="WCIRC">Waist Circumference</label>	
 					
-					<input type="checkbox" name="buttCirc" id="butt" onChange="dimSwitch('buttCirc');"/>
-					<label for="butt">Hip Circumference (at buttocks)</label>													
+					<input type="checkbox" name="BCIRC" id="BCIRC" onChange="dimSwitch('BCIRC');"/>
+					<label for="BCIRC">Hip Circumference (at buttocks)</label>		
+															
 					
 				</fieldset>
 
 				</form>
 	  
-		
 			</div>
 			
 			<!-- content -->
 			<div class="ui-block-b" style="width:80%;" id="main_content">
-
-				<div id="view">
-				<form>
-					<label for="flip-checkbox-3" style="font-size:14px; font-weight:bold; margin-right:20px">View:</label>
-					<input type="checkbox" data-role="flipswitch" name="view-checkbox" id="view-checkbox" data-on-text="Side" data-off-text="Front" data-wrapper-class="custom-size-flipswitch">
-				</form>	
-				</div>			
+				
+				<div class="ui-grid-b">
+					<div class="ui-block-a" style="width: 40%">
+									
+						<fieldset data-role="controlgroup">
+							<legend style="font-size:14px; font-weight:bold; margin-right:20px">Select Posture:</legend>
+							<label for="posturePicker">Select Posture</label>
+							<select name="posturePicker" id="posturePicker" data-native-menu="false">
+								<option value="#">Default</option>
+								<option value="#">Standing</option>
+								<option value="#">Sitting</option>
+							</select>
+						</fieldset>					
+					
+					</div>
+					<div class="ui-block-b" style="width :40%">
+					</div>
+					
+					<div class="ui-block-c" style="width :20%">
+						<div id="view">
+							<form>
+								<label for="flip-checkbox-3" style="font-size:14px; font-weight:bold; margin-right:20px">View:</label>
+								<input type="checkbox" data-role="flipswitch" name="view-checkbox" id="view-checkbox" data-on-text="Side" data-off-text="Front" data-wrapper-class="custom-size-flipswitch">
+							</form>	
+						</div>	
+					</div>
+				
+				</div>
+						
 
 						
 				<div class="ui-grid-d" id="images">
@@ -123,19 +145,15 @@
 					<div class="ui-block-c" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_3.png" alt="human 1" style="height: 250px"></div></div>
 					<div class="ui-block-d" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_4.png" alt="human 1" style="height: 250px"></div></div>
 					<div class="ui-block-e" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_5.png" alt="human 1" style="height: 250px"></div></div>
-				</div>
-		  
+				</div> 		
+		  			
 				<p style="text-align:center; color:red; font-style:bold; font-size:18px;">
 
 					Number of Available Manikins:  <span id="totals" style="font-size:22px"></span>					 
-					 <!--
-					 <a href="#" data-role="button" data-inline="true" onClick="plot();" data-mini="true">Update Graph</a>
-					<a href="#mvGraphSettings" data-rel="popup" data-role="button" data-inline="true" data-mini="true" data-icon="gear">Graph Settings</a>
-					-->
-
+					
 				 </p>
 			 
-			<!--  My Range slider -->
+		
 			<div style="margin: 0 auto; width:90%" id="sliders">
 				 
 			</div>
