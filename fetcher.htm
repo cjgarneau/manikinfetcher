@@ -7,7 +7,7 @@
 	<link rel="apple-touch-icon" href="./apple-touch-icon.png"/>
 	<meta charset="utf-8">		
 			
-	<link rel="stylesheet" href="./css/themes/openlab_tools_v1_extended.css" />
+	<link rel="stylesheet" href="./css/themes/openlab_tools_v2.css" />
 	<link rel="stylesheet" href="./css/themes/jquery.mobile.icons.min.css" />
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile.structure-1.4.2.min.css" /> 
 	<link rel="stylesheet" href="./css/style.css">
@@ -30,7 +30,7 @@
   <body onLoad="">   
     
     
-       <div data-role="page" id="pageView" data-theme="a"> 
+       <div data-role="page" id="pageView" data-theme="b"> 
       
       
 
@@ -48,7 +48,7 @@
 		<div class="ui-grid-a">
 		
 			<!-- anthro picker sidebar-->
-			<div class="ui-block-a" style="width: 20%;">
+			<div class="ui-block-a" style="width: 20%;" >
 		
 			<p><i>Select 2 or more dimensions for consideration.</i></p>
 
@@ -62,9 +62,9 @@
 				</fieldset>
 
 				<!-- anthro picker -->
-				<form name="anthroPickerForm" id="anthroPickerForm" style="margin-top:20px">
+				<form name="anthroPickerForm" id="anthroPickerForm" style="margin-top:20px"  >
 
-				<fieldset data-role="controlgroup" data-mini="true">
+				<fieldset data-role="controlgroup" data-mini="true" style="padding-right:15px">
 					
 					<input type="checkbox" name="STATURE" id="STATURE" checked="checked" onChange="dimSwitch('STATURE');" />
 					<label for="STATURE">Stature</label>
@@ -123,21 +123,23 @@
 						</fieldset>					
 					
 					</div>
-					<div class="ui-block-b" style="width :40%">
+					<div class="ui-block-b" style="width :30%">
 					</div>
 					
-					<div class="ui-block-c" style="width :20%">
-						<div id="view">
-							<form>
-								<label for="flip-checkbox-3" style="font-size:14px; font-weight:bold; margin-right:20px">View:</label>
-								<input type="checkbox" data-role="flipswitch" name="view-checkbox" id="view-checkbox" data-on-text="Side" data-off-text="Front" data-wrapper-class="custom-size-flipswitch">
-							</form>	
-						</div>	
+					<div class="ui-block-c" style="width :30%" id="view">
+					
+						<form>
+						    <fieldset data-role="controlgroup" data-type="horizontal">
+						        <legend>View:</legend>
+						        <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a" value="on" checked="checked">
+						        <label for="radio-choice-h-2a">Front</label>
+						        <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" value="off">
+						        <label for="radio-choice-h-2b">Side</label>
+						    </fieldset>
+						</form>				
 					</div>
-				
 				</div>
 						
-
 						
 				<div class="ui-grid-d" id="images">
 					<div class="ui-block-a" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_1.png" alt="human 1" style="height: 250px"></div></div>
@@ -147,7 +149,7 @@
 					<div class="ui-block-e" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_5.png" alt="human 1" style="height: 250px"></div></div>
 				</div> 		
 		  			
-				<p style="text-align:center; color:red; font-style:bold; font-size:18px;">
+				<p style="text-align:center; color:#2CA32C; font-style:bold; font-size:18px;">
 
 					Number of Available Manikins:  <span id="totals" style="font-size:22px"></span>					 
 					
