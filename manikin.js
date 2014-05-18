@@ -4,6 +4,7 @@ $(document).on('pageinit','#pageView',function(event){
 	measures = new Array('STATURE','BMI');
 	totalDims = 2;
 	imgChange = 0;
+	gender='m';
 	selectedDims['STATURE'] = true;
 	selectedDims['BMI'] = true;	
 	popData=rawData_M;
@@ -217,11 +218,20 @@ function limitManikins(measures,totalDims){
 	$('#totals').html(totalManikins);
 }  
 
+function getAnthro(manikinID){
+	var anthro=[];
+	manikinID.forEach(function(entry){
+	console.log('Stature:'+popData.STATURE[entry]+' BMI:'+popData.BMI[entry]+' SSH:'+popData.SSH[entry]+' BB:'+popData.BB[entry]+' KHS:'+popData.KHS[entry]+' FHL:'+popData.FHL[entry]+' SHB:'+popData.SHB[entry]+' HEADC:'+popData.HCIRC[entry]+' CCIRC:'+popData.CCIRC[entry]+' WCIRC:'+popData.WCIRC[entry]+' BCIRC:'+popData.BCIRC[entry]);
+	anthro.push([popData.STATURE[entry],popData.BMI[entry],popData.SSH[entry],popData.BB[entry],popData.KHS[entry],popData.FHL[entry],popData.SHB[entry],popData.HCIRC[entry],popData.CCIRC[entry],popData.WCIRC[entry],popData.BCIRC[entry]]);
+	});
+	return anthro
+}
+
 function updateImages(){	
 	if($('#radio-choice-h-2b').prop('checked')){
-		var view ='s';
+		var view ='side';
 	}else{
-		var view = 'f';
+		var view = 'front';
 	}
 	var num=5;
 	var gridtype=['solo','a','b','c','d','e'];
@@ -230,10 +240,10 @@ function updateImages(){
 		}
 	block_html=[];
 	for(i=0;i<num;i++){
-		block_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center; width=100%!important" ><div class="ui-bar ui-bar-a" ><img src="./images/test_img_'+view+'_'+(i+1)+'.png" alt="human 1" style="height: 250px"></div></div>')
+		block_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center width:100% !important" ><div class="ui-bar ui-bar-a" style="text-align:center width:100% !important"><img src="./images/'+view+'/img_'+gender+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.WCIRC[manikinID[i]])+'.png" alt="human 1" style="height: 250px"></div></div>')
 	}
 	$('#imageView').html('');
-	$('#imageView').append('<div class="ui-grid-d"  id="images" style="text-align: center width:100%!important" >'+block_html.join('')+'</div>')
+	$('#imageView').append('<div class="ui-grid-d"  id="images" style="text-align:center width:100% !important" >'+block_html.join('')+'</div>')
 }
 
 //Update population on slider change
@@ -473,8 +483,10 @@ $(document).on('change','#anthroPickerForm', function(event){
 $(document).on('change','#genderSwitch',function(event){
 	if($('#mvGender_M').prop('checked')){
 		popData=rawData_M;
+		gender='m';
 	}else{
 		popData=rawData_F;
+		gender='f';
 	}
 	initSliders(measures,totalDims);
 	limitManikins(measures,totalDims);
