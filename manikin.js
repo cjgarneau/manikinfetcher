@@ -10,6 +10,8 @@ $(document).on('pageinit','#pageView',function(event){
 	popData=rawData_M;
 	initSliders(measures,2);
 	limitManikins(measures,totalDims);
+	updateImages();
+
 
 });
 
@@ -221,8 +223,8 @@ function limitManikins(measures,totalDims){
 function getAnthro(manikinID){
 	var anthro=[];
 	manikinID.forEach(function(entry){
-	console.log('Stature:'+popData.STATURE[entry]+' BMI:'+popData.BMI[entry]+' SSH:'+popData.SSH[entry]+' BB:'+popData.BB[entry]+' KHS:'+popData.KHS[entry]+' FHL:'+popData.FHL[entry]+' SHB:'+popData.SHB[entry]+' HEADC:'+popData.HCIRC[entry]+' CCIRC:'+popData.CCIRC[entry]+' WCIRC:'+popData.WCIRC[entry]+' BCIRC:'+popData.BCIRC[entry]);
-	anthro.push([popData.STATURE[entry],popData.BMI[entry],popData.SSH[entry],popData.BB[entry],popData.KHS[entry],popData.FHL[entry],popData.SHB[entry],popData.HCIRC[entry],popData.CCIRC[entry],popData.WCIRC[entry],popData.BCIRC[entry]]);
+	console.log('Stature:'+popData.STATURE[entry]+' BMI:'+popData.BMI[entry]+' SSH:'+popData.SSH[entry]+' BIACROMIAL_BREADTH:'+popData.BIACROMIAL_BREADTH[entry]+' KNEE_HT_SITTING:'+popData.KNEE_HT_SITTING[entry]+' "FOREARM_HAND_LGTH":'+popData.FOREARM_HAND_LGTH[entry]+' HIP_BRDTH_SITTING:'+popData.HIP_BRDTH_SITTING[entry]+' HEAD_CIRC:'+popData.HEAD_CIRC[entry]+' CHEST_CIRC:'+popData.CHEST_CIRC[entry]+' WAIST_CIRC_OMPHALION:'+popData.WAIST_CIRC_OMPHALION[entry]+' BUTTOCK_CIRC:'+popData.BUTTOCK_CIRC[entry]);
+	anthro.push([popData.STATURE[entry],popData.BMI[entry],popData.SSH[entry],popData.BIACROMIAL_BREADTH[entry],popData.KNEE_HT_SITTING[entry],popData.FOREARM_HAND_LGTH[entry],popData.HIP_BRDTH_SITTING[entry],popData.HEAD_CIRC[entry],popData.CHEST_CIRC[entry],popData.WAIST_CIRC_OMPHALION[entry],popData.BUTTOCK_CIRC[entry]]);
 	});
 	return anthro
 }
@@ -236,14 +238,33 @@ function updateImages(){
 	var num=5;
 	var gridtype=['solo','a','b','c','d','e'];
 	if(totalManikins<=5){
-		num=totalManikins;								
+		num=totalManikins;						
 		}
-	block_html=[];
+	var image_html=[];
 	for(i=0;i<num;i++){
-		block_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center width:100% !important" ><div class="ui-bar ui-bar-a" style="text-align:center width:100% !important"><img src="./images/'+view+'/img_'+gender+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.WCIRC[manikinID[i]])+'.png" alt="human 1" style="height: 250px"></div></div>')
+		image_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center" ><div class="ui-bar" style="text-align:center"><img src="./images/'+view+'/img_'+gender+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[i]])+'.png" alt="human" style="height: 250px"></div></div>');
 	}
 	$('#imageView').html('');
-	$('#imageView').append('<div class="ui-grid-d"  id="images" style="text-align:center width:100% !important" >'+block_html.join('')+'</div>')
+	$('#imageView').append('<div class="ui-grid-'+gridtype[num-1]+'"  id="images" style="text-align:center" >'+image_html.join('')+'</div>')
+	
+	var download_html=[];
+	for(j=0;j<num;j++){
+		download_html.push('<div class="ui-block-'+gridtype[j+1]+'"><a href="#popupDialog'+(j+1)+'" data-rel="popup" class="ui-shadow ui-btn ui-mini ui-corner-all">Download</a></div>');
+	}
+	$('#downloadbars').html('');
+	$('#downloadbars').append('<div class="ui-grid-'+gridtype[num-1]+'" id="downloads" >'+download_html.join('')+'</div>');
+	
+
+	var dialogs_html=[];
+	for(j=0;j<num;j++){
+		$('#dialogimg'+(j+1)+'').html('\
+			<img src="./images/front/img_'+gender+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
+			<img src="./images/side/img_'+gender+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
+		);
+	
+	}
+
+			
 }
 
 //Update population on slider change
@@ -492,4 +513,5 @@ $(document).on('change','#genderSwitch',function(event){
 	limitManikins(measures,totalDims);
 	updateImages();
 });
+
 
