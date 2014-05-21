@@ -279,7 +279,7 @@ function updateImages(){
 		$('#anthroDialog'+(j+1)).html('<table>\
 			<tr><td>Stature</td><td>'+popData.STATURE[manikinID[j]]+' mm</td></tr>\
 			<tr><td>BMI</td><td>'+popData.BMI[manikinID[j]]+' kg/m<sup>2</sup></td></tr>\
-			<tr><td>SSH</td><td>'+popData.SSH[manikinID[j]]+'</td></tr>\
+			<tr><td>Sitting Height/Stature</td><td>'+popData.SSH[manikinID[j]]+'</td></tr>\
 			<tr><td>Biacromial Breadth</td><td>'+popData.BIACROMIAL_BRTH[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Knee Height-Sitting</td><td>'+popData.KNEE_HT_SITTING[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Forearm-Hand Length</td><td>'+popData.FOREARM_HAND_LGTH[manikinID[j]]+' mm</td></tr>\
@@ -290,11 +290,13 @@ function updateImages(){
 			<tr><td>Hip Circumference (at buttocks)</td><td>'+popData.BUTTOCK_CIRC[manikinID[j]]+' mm</td></tr>\
 		</table>')
 	}
+
 	$('#downloadLink'+(j+1)).html('\
-		<a href="./images/front/img_'+gender+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>		
+		<a href="./images/front/img_'+gender+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>\
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>\
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>'	
 	);
+
 			
 }
 
