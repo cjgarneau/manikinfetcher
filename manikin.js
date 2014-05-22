@@ -4,7 +4,7 @@ $(document).on('pageinit','#pageView',function(event){
 	measures = new Array('STATURE','BMI');
 	totalDims = 2;
 	imgChange = 0;
-	gender='m';
+	gender='male';
 	selectedDims['STATURE'] = true;
 	selectedDims['BMI'] = true;	
 	popData=rawData_M;
@@ -247,7 +247,7 @@ function updateImages(){
 	//image update
 	var image_html=[];
 	for(i=0;i<num;i++){
-		image_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center" ><div class="ui-bar" style="text-align:center"><img src="./images/'+view+'/img_'+gender+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[i]])+'.png" alt="human" style="height: 250px"></div></div>');
+		image_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center" ><div class="ui-bar" style="text-align:center"><img src="./images/'+gender+'/img_'+gender[0]+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[i]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[i]])+'.png" alt="human" style="height: 250px"></div></div>');
 	}
 	$('#imageView').html('');
 	$('#imageView').append('<div class="ui-grid-'+gridtype[num-1]+'"  id="images" style="text-align:center" >'+image_html.join('')+'</div>')
@@ -272,14 +272,14 @@ function updateImages(){
 	var dialogs_html=[];
 	for(j=0;j<num;j++){
 		$('#dialogimg'+(j+1)).html('\
-			<img src="./images/front/img_'+gender+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
-			<img src="./images/side/img_'+gender+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
+			<img src="./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
+			<img src="./images/'+gender+'/img_'+gender[0]+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
 		);
 		
 		$('#anthroDialog'+(j+1)).html('<table>\
 			<tr><td>Stature</td><td>'+popData.STATURE[manikinID[j]]+' mm</td></tr>\
 			<tr><td>BMI</td><td>'+popData.BMI[manikinID[j]]+' kg/m<sup>2</sup></td></tr>\
-			<tr><td>Sitting Height/Stature</td><td>'+popData.SSH[manikinID[j]]+'</td></tr>\
+			<tr><td>Sitting Height</td><td>'+popData.SITTING_HT[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Biacromial Breadth</td><td>'+popData.BIACROMIAL_BRTH[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Knee Height-Sitting</td><td>'+popData.KNEE_HT_SITTING[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Forearm-Hand Length</td><td>'+popData.FOREARM_HAND_LGTH[manikinID[j]]+' mm</td></tr>\
@@ -288,11 +288,11 @@ function updateImages(){
 			<tr><td>Chest Circumference</td><td>'+popData.CHEST_CIRC[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Waist Circumference</td><td>'+popData.WAIST_CIRC_OMPHALION[manikinID[j]]+' mm</td></tr>\
 			<tr><td>Hip Circumference (at buttocks)</td><td>'+popData.BUTTOCK_CIRC[manikinID[j]]+' mm</td></tr>\
-		</table>')
+		</table>');
 	}
 
 	$('#downloadLink'+(j+1)).html('\
-		<a href="./images/front/img_'+gender+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>\
+		<a href="./images/front/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>\
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>\
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>'	
 	);
@@ -538,10 +538,10 @@ $(document).on('change','#anthroPickerForm', function(event){
 $(document).on('change','#genderSwitch',function(event){
 	if($('#mvGender_M').prop('checked')){
 		popData=rawData_M;
-		gender='m';
+		gender='male';
 	}else{
 		popData=rawData_F;
-		gender='f';
+		gender='female';
 	}
 	initSliders(measures,totalDims);
 	limitManikins(measures,totalDims);
