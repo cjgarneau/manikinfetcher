@@ -12,8 +12,8 @@ $(document).on('pageinit','#pageView',function(event){
 	limitManikins(measures,totalDims);
 	updateImages();
 
-
 });
+
 
 function dimSwitch(dimName){
 
