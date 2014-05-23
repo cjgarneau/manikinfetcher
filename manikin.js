@@ -5,6 +5,8 @@ $(document).on('pageinit','#pageView',function(event){
 	totalDims = 2;
 	imgChange = 0;
 	gender='male';
+	//unitsval=1;
+	unitstr='mm';
 	selectedDims['STATURE'] = true;
 	selectedDims['BMI'] = true;	
 	popData=rawData_M;
@@ -48,7 +50,7 @@ function initSliders(measures,totalDims){
 	
 	// 1st slider
 	var min1 = Math.floor(Math.min.apply(Math,popData[measures[0]])/dataRound[measures[0]])*dataRound[measures[0]];
-	var max1 = Math.ceil(Math.max.apply(Math,popData[measures[0]])/dataRound[measures[0]])*dataRound[measures[0]]
+	var max1 = Math.ceil(Math.max.apply(Math,popData[measures[0]])/dataRound[measures[0]])*dataRound[measures[0]];
 	var slider_1_html = '';
 	slider_1_html += '<div data-role="rangeslider" id="Range1" >';
 	slider_1_html += '<label for="Range1-min" style="margin-bottom:-10px"><span id="SlideLabel1" style="font-size:20px;">'+fullName[measures[0]]+'</span> &nbsp;<span id="accom_1" style="color:#2e6794; font-size:20px;">%</span></label>';
@@ -272,32 +274,33 @@ function updateImages(){
 	var dialogs_html=[];
 	for(j=0;j<num;j++){
 		$('#dialogimg'+(j+1)).html('\
-			<img src="./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
-			<img src="./images/'+gender+'/img_'+gender[0]+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
+			<img id="dialogimgf'+(j+1)+'" src="./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
+			<img id="dialogimgs'+(j+1)+'" src="./images/'+gender+'/img_'+gender[0]+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
 		);
 		
 		$('#anthroDialog'+(j+1)).html('<table>\
-			<tr><td>Stature</td><td>'+popData.STATURE[manikinID[j]]+' mm</td></tr>\
-			<tr><td>BMI</td><td>'+popData.BMI[manikinID[j]]+' kg/m<sup>2</sup></td></tr>\
-			<tr><td>Sitting Height</td><td>'+popData.SITTING_HT[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Biacromial Breadth</td><td>'+popData.BIACROMIAL_BRTH[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Knee Height-Sitting</td><td>'+popData.KNEE_HT_SITTING[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Forearm-Hand Length</td><td>'+popData.FOREARM_HAND_LGTH[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Sitting Hip Breadth</td><td>'+popData.HIP_BRDTH_SITTING[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Head Circumference</td><td>'+popData.HEAD_CIRC[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Chest Circumference</td><td>'+popData.CHEST_CIRC[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Waist Circumference</td><td>'+popData.WAIST_CIRC_OMPHALION[manikinID[j]]+' mm</td></tr>\
-			<tr><td>Hip Circumference (at buttocks)</td><td>'+popData.BUTTOCK_CIRC[manikinID[j]]+' mm</td></tr>\
+			<tr><td>Stature</td><td>'+popData.STATURE[manikinID[j]]+' '+unitstr+'</td></tr>\
+			<tr><td>BMI</td><td>'+Math.round(popData.BMI[manikinID[j]])+' kg/m<sup>2</sup></td></tr>\
+			<tr><td>Sitting Height</td><td>'+Math.round(popData.SITTING_HT[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Biacromial Breadth</td><td>'+Math.round(popData.BIACROMIAL_BRTH[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Knee Height-Sitting</td><td>'+Math.round(popData.KNEE_HT_SITTING[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Forearm-Hand Length</td><td>'+Math.round(popData.FOREARM_HAND_LGTH[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Sitting Hip Breadth</td><td>'+Math.round(popData.HIP_BRDTH_SITTING[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Head Circumference</td><td>'+Math.round(popData.HEAD_CIRC[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Chest Circumference</td><td>'+Math.round(popData.CHEST_CIRC[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Waist Circumference</td><td>'+Math.round(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+' '+unitstr+'</td></tr>\
+			<tr><td>Hip Circumference (at buttocks)</td><td>'+Math.round(popData.BUTTOCK_CIRC[manikinID[j]])+' '+unitstr+'</td></tr>\
 		</table>');
+		
+		$('#downloadLink'+(j+1)).html('\
+			<a href="'+$('#dialogimgf'+(j+1)).attr('src')+'"  id="d'+(j+1)+'imgf" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-ajax="false" download >Front Image (.png)</a>\
+			<a href="'+$('#dialogimgs'+(j+1)).attr('src')+'"  id="d'+(j+1)+'imgs" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-ajax="false" download>Side Image (.png)</a>\
+			<a href="./3dfiles/male/'+gender[0]+'_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.jt" id="d'+(j+1)+'jt" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-ajax="false" download >CAD (.jt)</a>\
+			<a href="./3dfiles/male/'+gender[0]+'_jack_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.fig" id="d'+(j+1)+'jack" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-ajax="false" download>Jack file (.fig)</a>\
+			<a href="#" id="d'+(j+1)+'anthro" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b"  data-ajax="false" download>anthro (.txt)</a>'	
+		);
 	}
-
-	$('#downloadLink'+(j+1)).html('\
-		<a href="./images/front/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>\
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>\
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>'	
-	);
-
-			
+				
 }
 
 //Update population on slider change
@@ -548,4 +551,129 @@ $(document).on('change','#genderSwitch',function(event){
 	updateImages();
 });
 
+//download anthro.txt 1 
+$(document).on('click','#d1anthro',function(event){
+	var txt='\n \
+	Stature: \t'+popData.STATURE[manikinID[0]]+' '+unitstr+'\n \
+	BMI: \t'+Math.round(popData.BMI[manikinID[0]])+' kg/m^2 \n \
+	Sitting Height: \t'+Math.round(popData.SITTING_HT[manikinID[0]])+' '+unitstr+'\n \
+	Biacromial Breadth: \t'+Math.round(popData.BIACROMIAL_BRTH[manikinID[0]])+' '+unitstr+'\n \
+	Knee Height-Sitting: \t'+Math.round(popData.KNEE_HT_SITTING[manikinID[0]])+' '+unitstr+'\n \
+	Forearm-Hand Length: \t'+Math.round(popData.FOREARM_HAND_LGTH[manikinID[0]])+' '+unitstr+'\n \
+	Sitting Hip Breadth: \t'+Math.round(popData.HIP_BRDTH_SITTING[manikinID[0]])+' '+unitstr+'\n \
+	Head Circumference: \t'+Math.round(popData.HEAD_CIRC[manikinID[0]])+' '+unitstr+'\n \
+	Chest Circumference: \t'+Math.round(popData.CHEST_CIRC[manikinID[0]])+' '+unitstr+'\n \
+	Waist Circumference: \t'+Math.round(popData.WAIST_CIRC_OMPHALION[manikinID[0]])+' '+unitstr+'\n \
+	Hip Circumference (at buttocks): \t'+Math.round(popData.BUTTOCK_CIRC[manikinID[0]])+' '+unitstr+'\n \n\
+	Front image filename: img_'+gender[0]+'_f_'+popData.STATURE[manikinID[0]]+'_'+Math.floor(popData.BMI[manikinID[0]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[0]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[0]])+'.png \n \
+	Side image filename: img_'+gender[0]+'_s_'+popData.STATURE[manikinID[0]]+'_'+Math.floor(popData.BMI[manikinID[0]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[0]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[0]])+'.png\n \n\
+	.JT filename: '+gender[0]+'_'+popData.STATURE[manikinID[0]]+'_'+Math.floor(popData.BMI[manikinID[0]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[0]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[0]])+'.jt \n \
+	Jack figure filename: '+gender[0]+'_jack_'+popData.STATURE[manikinID[0]]+'_'+Math.floor(popData.BMI[manikinID[0]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[0]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[0]])+'.fig'
+		 
+	var blob=new Blob([txt], {type: "text/plain;charset=utf-8"});
+	saveAs(blob,"anthro.txt")
+});
+//download anthro.txt 2
+$(document).on('click','#d2anthro',function(event){
+	var txt='\n \
+	Stature: \t'+popData.STATURE[manikinID[1]]+' '+unitstr+'\n \
+	BMI: \t'+Math.round(popData.BMI[manikinID[1]])+' kg/m^2 \n \
+	Sitting Height: \t'+Math.round(popData.SITTING_HT[manikinID[1]])+' '+unitstr+'\n \
+	Biacromial Breadth: \t'+Math.round(popData.BIACROMIAL_BRTH[manikinID[1]])+' '+unitstr+'\n \
+	Knee Height-Sitting: \t'+Math.round(popData.KNEE_HT_SITTING[manikinID[1]])+' '+unitstr+'\n \
+	Forearm-Hand Length: \t'+Math.round(popData.FOREARM_HAND_LGTH[manikinID[1]])+' '+unitstr+'\n \
+	Sitting Hip Breadth: \t'+Math.round(popData.HIP_BRDTH_SITTING[manikinID[1]])+' '+unitstr+'\n \
+	Head Circumference: \t'+Math.round(popData.HEAD_CIRC[manikinID[1]])+' '+unitstr+'\n \
+	Chest Circumference: \t'+Math.round(popData.CHEST_CIRC[manikinID[1]])+' '+unitstr+'\n \
+	Waist Circumference: \t'+Math.round(popData.WAIST_CIRC_OMPHALION[manikinID[1]])+' '+unitstr+'\n \
+	Hip Circumference (at buttocks): \t'+Math.round(popData.BUTTOCK_CIRC[manikinID[1]])+' '+unitstr+'\n \n\
+	Front image filename: img_'+gender[0]+'_f_'+popData.STATURE[manikinID[1]]+'_'+Math.floor(popData.BMI[manikinID[1]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[1]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[1]])+'.png \n \
+	Side image filename: img_'+gender[0]+'_s_'+popData.STATURE[manikinID[1]]+'_'+Math.floor(popData.BMI[manikinID[1]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[1]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[1]])+'.png\n \n\
+	.JT filename: '+gender[0]+'_'+popData.STATURE[manikinID[1]]+'_'+Math.floor(popData.BMI[manikinID[1]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[1]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[1]])+'.jt \n \
+	Jack figure filename: '+gender[0]+'_jack_'+popData.STATURE[manikinID[1]]+'_'+Math.floor(popData.BMI[manikinID[1]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[1]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[1]])+'.fig'
+		 
+	var blob=new Blob([txt], {type: "text/plain;charset=utf-8"});
+	saveAs(blob,"anthro.txt")
+});
+//download anthro.txt 3
+$(document).on('click','#d3anthro',function(event){
+	var txt='\n \
+	Stature: \t'+popData.STATURE[manikinID[2]]+' '+unitstr+'\n \
+	BMI: \t'+Math.round(popData.BMI[manikinID[2]])+' kg/m^2 \n \
+	Sitting Height: \t'+Math.round(popData.SITTING_HT[manikinID[2]])+' '+unitstr+'\n \
+	Biacromial Breadth: \t'+Math.round(popData.BIACROMIAL_BRTH[manikinID[2]])+' '+unitstr+'\n \
+	Knee Height-Sitting: \t'+Math.round(popData.KNEE_HT_SITTING[manikinID[2]])+' '+unitstr+'\n \
+	Forearm-Hand Length: \t'+Math.round(popData.FOREARM_HAND_LGTH[manikinID[2]])+' '+unitstr+'\n \
+	Sitting Hip Breadth: \t'+Math.round(popData.HIP_BRDTH_SITTING[manikinID[2]])+' '+unitstr+'\n \
+	Head Circumference: \t'+Math.round(popData.HEAD_CIRC[manikinID[2]])+' '+unitstr+'\n \
+	Chest Circumference: \t'+Math.round(popData.CHEST_CIRC[manikinID[2]])+' '+unitstr+'\n \
+	Waist Circumference: \t'+Math.round(popData.WAIST_CIRC_OMPHALION[manikinID[2]])+' '+unitstr+'\n \
+	Hip Circumference (at buttocks): \t'+Math.round(popData.BUTTOCK_CIRC[manikinID[2]])+' '+unitstr+'\n \n\
+	Front image filename: img_'+gender[0]+'_f_'+popData.STATURE[manikinID[2]]+'_'+Math.floor(popData.BMI[manikinID[2]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[2]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[2]])+'.png \n \
+	Side image filename: img_'+gender[0]+'_s_'+popData.STATURE[manikinID[2]]+'_'+Math.floor(popData.BMI[manikinID[2]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[2]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[2]])+'.png\n \n\
+	.JT filename: '+gender[0]+'_'+popData.STATURE[manikinID[2]]+'_'+Math.floor(popData.BMI[manikinID[2]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[2]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[2]])+'.jt \n \
+	Jack figure filename: '+gender[0]+'_jack_'+popData.STATURE[manikinID[2]]+'_'+Math.floor(popData.BMI[manikinID[2]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[2]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[2]])+'.fig'
+		 
+	var blob=new Blob([txt], {type: "text/plain;charset=utf-8"});
+	saveAs(blob,"anthro.txt")
+});
+//download anthro.txt 4
+$(document).on('click','#d4anthro',function(event){
+	var txt='\n \
+	Stature: \t'+popData.STATURE[manikinID[3]]+' '+unitstr+'\n \
+	BMI: \t'+Math.round(popData.BMI[manikinID[3]])+' kg/m^2 \n \
+	Sitting Height: \t'+Math.round(popData.SITTING_HT[manikinID[3]])+' '+unitstr+'\n \
+	Biacromial Breadth: \t'+Math.round(popData.BIACROMIAL_BRTH[manikinID[3]])+' '+unitstr+'\n \
+	Knee Height-Sitting: \t'+Math.round(popData.KNEE_HT_SITTING[manikinID[3]])+' '+unitstr+'\n \
+	Forearm-Hand Length: \t'+Math.round(popData.FOREARM_HAND_LGTH[manikinID[3]])+' '+unitstr+'\n \
+	Sitting Hip Breadth: \t'+Math.round(popData.HIP_BRDTH_SITTING[manikinID[3]])+' '+unitstr+'\n \
+	Head Circumference: \t'+Math.round(popData.HEAD_CIRC[manikinID[3]])+' '+unitstr+'\n \
+	Chest Circumference: \t'+Math.round(popData.CHEST_CIRC[manikinID[3]])+' '+unitstr+'\n \
+	Waist Circumference: \t'+Math.round(popData.WAIST_CIRC_OMPHALION[manikinID[3]])+' '+unitstr+'\n \
+	Hip Circumference (at buttocks): \t'+Math.round(popData.BUTTOCK_CIRC[manikinID[3]])+' '+unitstr+'\n \n\
+	Front image filename: img_'+gender[0]+'_f_'+popData.STATURE[manikinID[3]]+'_'+Math.floor(popData.BMI[manikinID[3]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[3]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[3]])+'.png \n \
+	Side image filename: img_'+gender[0]+'_s_'+popData.STATURE[manikinID[3]]+'_'+Math.floor(popData.BMI[manikinID[3]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[3]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[3]])+'.png\n \n\
+	.JT filename: '+gender[0]+'_'+popData.STATURE[manikinID[3]]+'_'+Math.floor(popData.BMI[manikinID[3]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[3]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[3]])+'.jt \n \
+	Jack figure filename: '+gender[0]+'_jack_'+popData.STATURE[manikinID[3]]+'_'+Math.floor(popData.BMI[manikinID[3]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[3]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[3]])+'.fig'
+		 
+	var blob=new Blob([txt], {type: "text/plain;charset=utf-8"});
+	saveAs(blob,"anthro.txt")
+});
+//download anthro.txt 5
+$(document).on('click','#d5anthro',function(event){
+	var txt='\n \
+	Stature: \t'+popData.STATURE[manikinID[4]]+' '+unitstr+'\n \
+	BMI: \t'+Math.round(popData.BMI[manikinID[4]])+' kg/m^2 \n \
+	Sitting Height: \t'+Math.round(popData.SITTING_HT[manikinID[4]])+' '+unitstr+'\n \
+	Biacromial Breadth: \t'+Math.round(popData.BIACROMIAL_BRTH[manikinID[4]])+' '+unitstr+'\n \
+	Knee Height-Sitting: \t'+Math.round(popData.KNEE_HT_SITTING[manikinID[4]])+' '+unitstr+'\n \
+	Forearm-Hand Length: \t'+Math.round(popData.FOREARM_HAND_LGTH[manikinID[4]])+' '+unitstr+'\n \
+	Sitting Hip Breadth: \t'+Math.round(popData.HIP_BRDTH_SITTING[manikinID[4]])+' '+unitstr+'\n \
+	Head Circumference: \t'+Math.round(popData.HEAD_CIRC[manikinID[4]])+' '+unitstr+'\n \
+	Chest Circumference: \t'+Math.round(popData.CHEST_CIRC[manikinID[4]])+' '+unitstr+'\n \
+	Waist Circumference: \t'+Math.round(popData.WAIST_CIRC_OMPHALION[manikinID[4]])+' '+unitstr+'\n \
+	Hip Circumference (at buttocks): \t'+Math.round(popData.BUTTOCK_CIRC[manikinID[4]])+' '+unitstr+'\n \n\
+	Front image filename: img_'+gender[0]+'_f_'+popData.STATURE[manikinID[4]]+'_'+Math.floor(popData.BMI[manikinID[4]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[4]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[4]])+'.png \n \
+	Side image filename: img_'+gender[0]+'_s_'+popData.STATURE[manikinID[4]]+'_'+Math.floor(popData.BMI[manikinID[4]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[4]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[4]])+'.png\n \n\
+	.JT filename: '+gender[0]+'_'+popData.STATURE[manikinID[4]]+'_'+Math.floor(popData.BMI[manikinID[4]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[4]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[4]])+'.jt \n \
+	Jack figure filename: '+gender[0]+'_jack_'+popData.STATURE[manikinID[4]]+'_'+Math.floor(popData.BMI[manikinID[4]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[4]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[4]])+'.fig'		 
+	var blob=new Blob([txt], {type: "text/plain;charset=utf-8"});
+	saveAs(blob,"anthro.txt")
+});
 
+
+$(document).on('click','#downloadAllDialog',function(event){
+	var imgfiles_html=[];
+	for(j=0;j<manikinID.length;j++){
+		imgfiles_html.push('\
+		<a class="allimgs" href=./images/'+gender+'/img_'+genders+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png"></a>\
+		<a class="allimgs" href=./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png"></a>'	
+		);
+	}
+		$('#files').html('');
+		$('#files').append(imgfiles_html.join(''));
+});
+$(document).on('click','#allImages',function(event){
+	event.preventDefault();
+	$('.allimgs').multidownload();
+});

@@ -21,8 +21,10 @@
 	</script>
 
 	<script type="text/javascript" src="./stats.js"></script>
-
 	<script type="text/javascript" src="./manikin.js"></script>
+	<script type="text/javascript" src="./jquery.multiDownload.js"></script>
+	
+	<script type="text/javascript" src="./FileSaver.js"></script>
     
     <style>
     	.disable{
@@ -214,9 +216,9 @@
 						</div>
 						<h3 class="ui-title">Select format for download:</h3>	
 						<div id="downloadLink1">
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>
+						<a href="#" id="d1img" "class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>
+						<a href="#" id="d1jt" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>
+						<a href="#" id="d1jack" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>
 						</div>					</div>
 				</div>	
 				
@@ -302,10 +304,11 @@
 						</div>				
 						<h3 class="ui-title">Select format for download:</h3>
 						<div id="downloadLinkAll">
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>
-						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>
+						<a href="#" id="allImages" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Images (.png)</a>
+						<a href="#" id="allJt" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">CAD (.jt)</a>
+						<a href="#" id="allFig" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Jack file (.fig)</a>
 						</div>
+						<div id="files" style="display: none"></div>
 					</div>
 				</div>	
 	
