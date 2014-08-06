@@ -46,23 +46,6 @@ function initSliders(measures,totalDims){
 
 	$('#sliders').html('');
 	
-/*	slider_1_html += '\
-	<div id="percentile1" class="ui-grid-d">\
-		<div id="pc1-min" class="ui-block-a" style="width:3%">\
-		</div>\
-		<div class="ui-block-b" style="width:33%" ></div>\
-		<div id="p1" class="ui-block-c" style="width:20%" >\
-			<form>\
-				<label for="pc1-checkbox" style="margin-bottom:-10px">Use Percentiles</label>\
-				<input type="checkbox"  name="pc1-checkbox" id="pc1-checkbox" data-mini="true">\
-			</form>\
-		</div>\
-		<div class="ui-block-c" style="width:37%" ></div>\
-		<div id="pc1-max" class="ui-block-d" style="width:3%">\
-		</div>\
-	</div>';
-*/		
-	
 	// 1st slider
 	var min1 = Math.floor(Math.min.apply(Math,popData[measures[0]])/dataRound[measures[0]])*dataRound[measures[0]];
 	var max1 = Math.ceil(Math.max.apply(Math,popData[measures[0]])/dataRound[measures[0]])*dataRound[measures[0]];
@@ -398,7 +381,7 @@ function limitManikins(measures,totalDims){
 		
 		//for each individual check if in range. if true return index. 
 		for (j=0; j <= popData['BMI'].length; j++){
-			if (popData[measures[m]][j] >= sliderMin && popData[measures[m]][j] <= sliderMax){
+			if (Math.round(popData[measures[m]][j]) >= sliderMin && Math.round(popData[measures[m]][j]) <= sliderMax){
 				temp[measures[m]].push(j)
 			}
 		
@@ -448,7 +431,7 @@ function updateImages(){
 	//image update
 	var image_html=[];
 	for(i=0;i<num;i++){
-		image_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center" ><div class="ui-bar" style="text-align:center"><img src="./images/'+gender+'/img_'+gender[0]+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[i]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[i]])+'.png" alt="human" style="height: 250px"></div></div>');
+		image_html.push('<div class="ui-block-'+gridtype[i+1]+'" style="text-align:center" ><div class="ui-bar" style="text-align:center"><img src="/Users/student/Documents/Web/manikinfetcher stuff//'+gender+'/img_'+gender[0]+'_'+view[0]+'_'+popData.STATURE[manikinID[i]]+'_'+Math.floor(popData.BMI[manikinID[i]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[i]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[i]])+'.png" alt="human" style="height: 250px"></div></div>');
 	}
 	$('#imageView').html('');
 	$('#imageView').append('<div class="ui-grid-'+gridtype[num-1]+'"  id="images" style="text-align:center" >'+image_html.join('')+'</div>')
@@ -473,8 +456,8 @@ function updateImages(){
 	var dialogs_html=[];
 	for(j=0;j<num;j++){
 		$('#dialogimg'+(j+1)).html('\
-			<img id="dialogimgf'+(j+1)+'" src="./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
-			<img id="dialogimgs'+(j+1)+'" src="./images/'+gender+'/img_'+gender[0]+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
+			<img id="dialogimgf'+(j+1)+'" src="/Users/student/Documents/Web/manikinfetcher stuff//'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">\
+			<img id="dialogimgs'+(j+1)+'" src="/Users/student/Documents/Web/manikinfetcher stuff//'+gender+'/img_'+gender[0]+'_s_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png" alt="human" style="height: 250px">'
 		);
 		
 		$('#anthroDialog'+(j+1)).html('<table>\
@@ -514,10 +497,18 @@ function percentile(measure,percentile){
 	var uval = lval+1
 	var interp = (pop[uval]-pop[lval])*p%1+pop[lval]
 	}
-	
 	return interp
 	}
 
+function percentile2Val(measure,val){
+	var below=0;
+	for (j=0;j<popData.BMI.length;j++){
+		if(popData[measure][j]<=val){
+			below++
+		}
+	}
+	return	Math.round(below/popData.BMI.length*100)
+}
 
 //Update population on slider change
 
@@ -612,48 +603,64 @@ $(document).on('change','#sliders',function(event){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[0],$('#Range1-min').val() );
+			$('#pc1-min-in').val(p);
 		});
 		$('#Range1-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
-				}		
+				}
+			var p=percentile2Val(measures[0],$('#Range1-max').val() );
+			$('#pc1-max-in').val(p);		
 		});
 		$('#Range2-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[1],$('#Range2-min').val() );
+			$('#pc2-min-in').val(p);
 		});
 		$('#Range2-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[1],$('#Range2-max').val() );
+			$('#pc2-max-in').val(p);				
 		});		
 		$('#Range3-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[2],$('#Range3-min').val() );
+			$('#pc3-min-in').val(p);
 		});
 		$('#Range3-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[2],$('#Range3-max').val() );
+			$('#pc3-max-in').val(p);			
 		});
 		$('#Range4-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[3],$('#Range4-min').val() );
+			$('#pc4-min-in').val(p);				
 		});
 		$('#Range4-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[3],$('#Range4-max').val() );
+			$('#pc4-max-in').val(p);				
 
 		});	
 		$('#Range5-min').on('slidestop',function(event){
@@ -661,84 +668,112 @@ $(document).on('change','#sliders',function(event){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[4],$('#Range5-min').val() );
+			$('#pc5-min-in').val(p);		
 		});
 		$('#Range5-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[4],$('#Range5-max').val() );
+			$('#pc5-max-in').val(p);				
 		});
 		$('#Range6-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[5],$('#Range6-min').val() );
+			$('#pc6-min-in').val(p);				
 		});
 		$('#Range6-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[5],$('#Range6-max').val() );
+			$('#pc6-max-in').val(p);				
 		});		
 		$('#Range7-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[6],$('#Range7-min').val() );
+			$('#pc7-min-in').val(p);				
 		});
 		$('#Range7-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[6],$('#Range7-max').val() );
+			$('#pc7-max-in').val(p);				
 		});
 		$('#Range8-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[7],$('#Range8-min').val() );
+			$('#pc8-min-in').val(p);				
 		});
 		$('#Range8-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[7],$('#Range8-max').val() );
+			$('#pc8-max-in').val(p);				
 		});
 		$('#Range9-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[8],$('#Range9-min').val() );
+			$('#pc9-min-in').val(p);				
 		});
 		$('#Range9-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[8],$('#Range9-max').val() );
+			$('#pc9-max-in').val(p);				
 		});
 		$('#Range10-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[9],$('#Range10-min').val() );
+			$('#pc10-min-in').val(p);				
 		});
 		$('#Range10-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[9],$('#Range10-max').val() );
+			$('#pc10-max-in').val(p);			
 		});		
 		$('#Range11-min').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[10],$('#Range11-min').val() );
+			$('#pc11-min-in').val(p);				
 		});
 		$('#Range11-max').on('slidestop',function(event){
 			if (totalManikins<=5 && totalManikins > 0){
 				imgChange = 1;
 				updateImages();
 				}
+			var p=percentile2Val(measures[10],$('#Range11-max').val() );
+			$('#pc11-max-in').val(p);				
 		});	
 		
 				
@@ -877,13 +912,22 @@ $(document).on('click','#d5anthro',function(event){
 	saveAs(blob,"anthro.txt")
 });
 
+var idown;
+downloadURL=function(url) {
+  if ($idown) {
+    $idown.attr('src',url);
+  } else {
+    $idown = $('<iframe>', { id:'idown', src:url }).hide().appendTo('body');
+  }
+}
+
 //download all
 $(document).on('click','#downloadAllDialog',function(event){
 	var imgfiles_html=[];
 	for(j=0;j<manikinID.length;j++){
 		imgfiles_html.push('\
-		<a class="allimgs" href=./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png"></a>\
-		<a class="allimgs" href=./images/'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png"></a>'	
+		<a class="allimgs" href=/Users/student/Documents/Web/manikinfetcher stuff//'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png"></a>\
+		<a class="allimgs" href=/Users/student/Documents/Web/manikinfetcher stuff//'+gender+'/img_'+gender[0]+'_f_'+popData.STATURE[manikinID[j]]+'_'+Math.floor(popData.BMI[manikinID[j]])+'_'+Math.floor(popData.KNEE_HT_SITTING[manikinID[j]])+'_'+Math.floor(popData.WAIST_CIRC_OMPHALION[manikinID[j]])+'.png"></a>'	
 		);
 	}
 		$('#files').html('');
@@ -920,8 +964,8 @@ $(document).on('change', '#pc1-max-in', function(event){
 //percentiles 2
 $(document).on('change', '#pc2-checkbox',function(event){
 	if($('#pc2-checkbox').prop('checked')){
-	$('#pc2-min').html('<label for="pc2-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc2-min-in" id="pc2-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc2-max').html('<label for="pc2-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc2-max-in" id="pc2-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc2-min').html('<label for="pc2-min-in" style="margin-top:-5px"></label><input type="number" name="pc2-min-in" id="pc2-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc2-max').html('<label for="pc2-max-in" style="margin-top:-5px"></label><input type="number" name="pc2-max-in" id="pc2-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc2-min').html('');
 		$('#pc2-max').html('');	
@@ -943,8 +987,8 @@ $(document).on('change', '#pc2-max-in', function(event){
 //percentiles 3
 $(document).on('change', '#pc3-checkbox',function(event){
 	if($('#pc3-checkbox').prop('checked')){
-	$('#pc3-min').html('<label for="pc3-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc3-min-in" id="pc3-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc3-max').html('<label for="pc3-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc3-max-in" id="pc3-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc3-min').html('<label for="pc3-min-in" style="margin-top:-5px"></label><input type="number" name="pc3-min-in" id="pc3-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc3-max').html('<label for="pc3-max-in" style="margin-top:-5px"></label><input type="number" name="pc3-max-in" id="pc3-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc3-min').html('');
 		$('#pc3-max').html('');	
@@ -966,8 +1010,8 @@ $(document).on('change', '#pc3-max-in', function(event){
 //percentiles 4
 $(document).on('change', '#pc4-checkbox',function(event){
 	if($('#pc4-checkbox').prop('checked')){
-	$('#pc4-min').html('<label for="pc4-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc4-min-in" id="pc4-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc4-max').html('<label for="pc4-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc4-max-in" id="pc4-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc4-min').html('<label for="pc4-min-in" style="margin-top:-5px"></label><input type="number" name="pc4-min-in" id="pc4-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc4-max').html('<label for="pc4-max-in" style="margin-top:-5px"></label><input type="number" name="pc4-max-in" id="pc4-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc4-min').html('');
 		$('#pc4-max').html('');	
@@ -989,8 +1033,8 @@ $(document).on('change', '#pc4-max-in', function(event){
 //percentiles 5
 $(document).on('change', '#pc5-checkbox',function(event){
 	if($('#pc5-checkbox').prop('checked')){
-	$('#pc5-min').html('<label for="pc5-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc5-min-in" id="pc5-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc5-max').html('<label for="pc5-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc5-max-in" id="pc5-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc5-min').html('<label for="pc5-min-in" style="margin-top:-5px"></label><input type="number" name="pc5-min-in" id="pc5-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc5-max').html('<label for="pc5-max-in" style="margin-top:-5px"></label><input type="number" name="pc5-max-in" id="pc5-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc5-min').html('');
 		$('#pc5-max').html('');	
@@ -1012,8 +1056,8 @@ $(document).on('change', '#pc5-max-in', function(event){
 //percentiles 6
 $(document).on('change', '#pc6-checkbox',function(event){
 	if($('#pc6-checkbox').prop('checked')){
-	$('#pc6-min').html('<label for="pc6-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc6-min-in" id="pc6-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc6-max').html('<label for="pc6-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc6-max-in" id="pc6-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc6-min').html('<label for="pc6-min-in" style="margin-top:-5px"></label><input type="number" name="pc6-min-in" id="pc6-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc6-max').html('<label for="pc6-max-in" style="margin-top:-5px"></label><input type="number" name="pc6-max-in" id="pc6-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc6-min').html('');
 		$('#pc6-max').html('');	
@@ -1035,8 +1079,8 @@ $(document).on('change', '#pc6-max-in', function(event){
 //percentiles 7
 $(document).on('change', '#pc7-checkbox',function(event){
 	if($('#pc7-checkbox').prop('checked')){
-	$('#pc7-min').html('<label for="pc7-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc7-min-in" id="pc7-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc7-max').html('<label for="pc7-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc7-max-in" id="pc7-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc7-min').html('<label for="pc7-min-in" style="margin-top:-5px"></label><input type="number" name="pc7-min-in" id="pc7-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc7-max').html('<label for="pc7-max-in" style="margin-top:-5px"></label><input type="number" name="pc7-max-in" id="pc7-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc7-min').html('');
 		$('#pc7-max').html('');	
@@ -1058,8 +1102,8 @@ $(document).on('change', '#pc7-max-in', function(event){
 //percentiles 8
 $(document).on('change', '#pc8-checkbox',function(event){
 	if($('#pc8-checkbox').prop('checked')){
-	$('#pc8-min').html('<label for="pc8-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc8-min-in" id="pc8-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc8-max').html('<label for="pc8-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc8-max-in" id="pc8-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc8-min').html('<label for="pc8-min-in" style="margin-top:-5px"></label><input type="number" name="pc8-min-in" id="pc8-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc8-max').html('<label for="pc8-max-in" style="margin-top:-5px"></label><input type="number" name="pc8-max-in" id="pc8-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc8-min').html('');
 		$('#pc8-max').html('');	
@@ -1081,8 +1125,8 @@ $(document).on('change', '#pc8-max-in', function(event){
 //percentiles 9
 $(document).on('change', '#pc9-checkbox',function(event){
 	if($('#pc9-checkbox').prop('checked')){
-	$('#pc9-min').html('<label for="pc9-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc9-min-in" id="pc9-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc9-max').html('<label for="pc9-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc9-max-in" id="pc9-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc9-min').html('<label for="pc9-min-in" style="margin-top:-5px"></label><input type="number" name="pc9-min-in" id="pc9-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc9-max').html('<label for="pc9-max-in" style="margin-top:-5px"></label><input type="number" name="pc9-max-in" id="pc9-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc9-min').html('');
 		$('#pc9-max').html('');	
@@ -1104,8 +1148,8 @@ $(document).on('change', '#pc9-max-in', function(event){
 //percentiles 10
 $(document).on('change', '#pc10-checkbox',function(event){
 	if($('#pc10-checkbox').prop('checked')){
-	$('#pc10-min').html('<label for="pc10-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc10-min-in" id="pc10-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc10-max').html('<label for="pc10-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc10-max-in" id="pc10-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc10-min').html('<label for="pc10-min-in" style="margin-top:-5px"></label><input type="number" name="pc10-min-in" id="pc10-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc10-max').html('<label for="pc10-max-in" style="margin-top:-5px"></label><input type="number" name="pc10-max-in" id="pc10-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc10-min').html('');
 		$('#pc10-max').html('');	
@@ -1127,8 +1171,8 @@ $(document).on('change', '#pc10-max-in', function(event){
 //percentiles 11
 $(document).on('change', '#pc11-checkbox',function(event){
 	if($('#pc11-checkbox').prop('checked')){
-	$('#pc11-min').html('<label for="pc11-min-in" style="margin-top:-5px">Lower</label><input type="number" name="pc11-min-in" id="pc11-min-in" min="0" max="100" value="0" data-mini="true">');
-	$('#pc11-max').html('<label for="pc11-max-in" style="margin-top:-5px">Upper</label><input type="number" name="pc11-max-in" id="pc11-max-in" min="0" max="100" value="100"  data-mini="true">');
+	$('#pc11-min').html('<label for="pc11-min-in" style="margin-top:-5px"></label><input type="number" name="pc11-min-in" id="pc11-min-in" min="0" max="100" value="0" data-mini="true">');
+	$('#pc11-max').html('<label for="pc11-max-in" style="margin-top:-5px"></label><input type="number" name="pc11-max-in" id="pc11-max-in" min="0" max="100" value="100"  data-mini="true">');
 	} else{
 		$('#pc11-min').html('');
 		$('#pc11-max').html('');	
